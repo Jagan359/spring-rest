@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import static com.homeprojects.springjdbc.TestDataUtil.createTestAuthor;
 import static org.hamcrest.Matchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -33,11 +34,6 @@ public class AuthorDaoImplTests {
                 eq("INSERT INTO authors (id, name, age) VALUES (?, ?, ?)"),
                 eq(123456L), eq("Dingu"), eq(33)
                 );
-    }
-
-    private static Author createTestAuthor() {
-        return Author.builder()
-                .age(33).id(123456L).name("Dingu").build();
     }
 
     @Test
