@@ -1,4 +1,4 @@
-package com.homeprojects.springjdbc.dao;
+package com.homeprojects.springjdbc.dao.impl;
 
 import com.homeprojects.springjdbc.dao.impl.AuthorDaoImpl;
 import com.homeprojects.springjdbc.domain.Author;
@@ -26,14 +26,18 @@ public class AuthorDaoImplTests {
 
     @Test
     public void testThatCreatesAuthorGeneratesCorrectSql(){
-        Author author = Author.builder()
-                .age(33).id(123456L).name("Dingu").build();
+        Author author = createTestAuthor();
         underTest.create(author);
 
         verify(jdbcTemplate).update(
                 eq("INSERT INTO authors (id, name, age) VALUES (?, ?, ?)"),
                 eq(123456L), eq("Dingu"), eq(33)
                 );
+    }
+
+    private static Author createTestAuthor() {
+        return Author.builder()
+                .age(33).id(123456L).name("Dingu").build();
     }
 
     @Test
