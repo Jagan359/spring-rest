@@ -2,14 +2,17 @@ package com.homeprojects.springjdbc.dao.impl;
 
 import com.homeprojects.springjdbc.dao.AuthorDao;
 import com.homeprojects.springjdbc.domain.Author;
+import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class AuthorDaoImpl implements AuthorDao {
 
     private final JdbcTemplate jdbcTemplate;
