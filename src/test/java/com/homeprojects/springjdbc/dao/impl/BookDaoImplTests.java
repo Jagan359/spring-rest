@@ -1,7 +1,6 @@
 package com.homeprojects.springjdbc.dao.impl;
 
-import com.homeprojects.springjdbc.dao.impl.BookDaoImpl;
-import com.homeprojects.springjdbc.domain.Author;
+import com.homeprojects.springjdbc.TestDataUtil;
 import com.homeprojects.springjdbc.domain.Book;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,7 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -26,7 +24,7 @@ public class BookDaoImplTests {
 
     @Test
     public void testBookImplCreateCorrectSql(){
-        Book book = Book.builder().authorId(123456L).isbn("123-456-789").title("PS").build();
+        Book book = TestDataUtil.createTestBookA();
 
         underTest.create(book);
 
@@ -48,4 +46,29 @@ public class BookDaoImplTests {
                 eq(isbn));
     }
 
+    @Test
+    public void testFindManyBookGeneratesCorrectSql(){
+
+        underTest.find();
+
+        verify(jdbcTemplate).query(
+                eq("SELECT isbn, author_id, title FROM books"),
+                ArgumentMatchers.<BookDaoImpl.BookRowMapper>any());
+    }
+
+    @Test
+    public void testUpdateBookGeneratesCorrectSQL(){
+        Book book = TestDataUtil.createTestBookA();
+        underTest.update(book, book.getIsbn());
+
+        verify(jdbcTemplate).update("UPDATE books SET title = ?, isbn = ?, author_id = ? WHERE isbn = ?", book.getTitle(), book.getIsbn(), book.getAuthorId(), book.getIsbn());
+    }
+
+    @Test
+    public void testDeleteGenereatesCorrectSql(){
+        Book book = TestDataUtil.createTestBookA();
+        underTest.delete(book.getIsbn());
+
+        verify(jdbcTemplate).update("DELETE FROM books WHERE isbn = ?", book.getIsbn());
+    }
 }

@@ -1,6 +1,5 @@
 package com.homeprojects.springjdbc.dao.impl;
 
-import com.homeprojects.springjdbc.dao.impl.AuthorDaoImpl;
 import com.homeprojects.springjdbc.domain.Author;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,10 +8,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 
 import static com.homeprojects.springjdbc.TestDataUtil.createTestAuthor;
-import static org.hamcrest.Matchers.any;
+import static com.homeprojects.springjdbc.TestDataUtil.createTestAuthorA;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
@@ -44,5 +42,30 @@ public class AuthorDaoImplTests {
                 eq("SELECT id, name, age FROM authors WHERE id = ? LIMIT 1"),
                 ArgumentMatchers.<AuthorDaoImpl.AuthorRowMapper>any(),
                 eq(123456L));
+    }
+    @Test
+    public void testFindManyGeneratesCorrectSql(){
+        underTest.find();
+
+        verify(jdbcTemplate).query(
+                eq("SELECT id, name, age FROM authors"),
+                ArgumentMatchers.<AuthorDaoImpl.AuthorRowMapper>any());
+    }
+
+    @Test
+    public void testUpdateCreatesAuthor(){
+        Author authorA = createTestAuthorA();
+        underTest.update(authorA, authorA.getId());
+
+        verify(jdbcTemplate).update(
+                eq("UPDATE authors SET id = ?, name = ?, age = ?, where id =?"),
+                eq(authorA.getId()), eq(authorA.getName()), eq(authorA.getAge()), eq(authorA.getId()));
+    }
+
+    @Test
+    public void testDeleteGeneratesCorrectSql(){
+        underTest.delete(1L);
+
+        verify(jdbcTemplate).update("DELETE FROM authors WHERE id = ?", 1L );
     }
 }

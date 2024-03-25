@@ -2,7 +2,6 @@ package com.homeprojects.springjdbc.dao.impl;
 
 import com.homeprojects.springjdbc.dao.AuthorDao;
 import com.homeprojects.springjdbc.domain.Author;
-import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -32,6 +31,24 @@ public class AuthorDaoImpl implements AuthorDao {
                 authorId);
         return results.stream().findFirst();
 
+    }
+
+    @Override
+    public List<Author> find() {
+        List<Author> results = jdbcTemplate.query("SELECT id, name, age FROM authors",
+                new AuthorRowMapper());
+        return results;
+    }
+
+    @Override
+    public void update(Author authorA, Long id) {
+        jdbcTemplate.update("UPDATE authors SET id = ?, name = ?, age = ?, where id =?", authorA.getId(),
+                authorA.getName(), authorA.getAge(), id);
+    }
+
+    @Override
+    public void delete(Long id) {
+        jdbcTemplate.update("DELETE FROM authors WHERE id = ?", id);
     }
 
     public  static class AuthorRowMapper implements RowMapper<Author> {
