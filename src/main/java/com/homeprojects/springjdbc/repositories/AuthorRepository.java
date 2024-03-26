@@ -1,2 +1,4 @@
-package com.homeprojects.springjdbc.repositories;public interface AuthorRepository {
+package com.homeprojects.springjdbc.repositories;
+
+public interface AuthorRepository {
 }
