@@ -1,32 +1,31 @@
 package com.homeprojects.springjdbc;
 
-import com.homeprojects.springjdbc.domain.Author;
-import com.homeprojects.springjdbc.domain.Book;
-import org.checkerframework.checker.units.qual.A;
+import com.homeprojects.springjdbc.domain.AuthorEntity;
+import com.homeprojects.springjdbc.domain.BookEntity;
 
 public class TestDataUtil {
-    public static Author createTestAuthorA() {
-        return Author.builder()
+    public static AuthorEntity createTestAuthorA() {
+        return AuthorEntity.builder()
                 .age(33).name("Dingu").build();
     }
-    public static Author createTestAuthorB() {
-        return Author.builder()
+    public static AuthorEntity createTestAuthorB() {
+        return AuthorEntity.builder()
                 .age(22).id(2L).name("Tooo").build();
     }
-    public static Author createTestAuthorC() {
-        return Author.builder()
+    public static AuthorEntity createTestAuthorC() {
+        return AuthorEntity.builder()
                 .age(13).id(3L).name("See").build();
     }
 
-    public static Book createTestBookA(final Author author) {
-        return Book.builder().author(author).isbn("123-456-789").title("PS1").build();
+    public static BookEntity createTestBookA(final AuthorEntity authorEntity) {
+        return BookEntity.builder().authorEntity(authorEntity).isbn("123-456-789").title("PS1").build();
     }
 
-    public static Book createTestBookB(final Author author) {
-        return Book.builder().author(author).isbn("111-456-789").title("PS2").build();
+    public static BookEntity createTestBookB(final AuthorEntity authorEntity) {
+        return BookEntity.builder().authorEntity(authorEntity).isbn("111-456-789").title("PS2").build();
     }
 
-    public static Book createTestBookC(final Author author) {
-        return Book.builder().author(author).isbn("222-456-789").title("PS3").build();
+    public static BookEntity createTestBookC(final AuthorEntity authorEntity) {
+        return BookEntity.builder().authorEntity(authorEntity).isbn("222-456-789").title("PS3").build();
     }
 }
