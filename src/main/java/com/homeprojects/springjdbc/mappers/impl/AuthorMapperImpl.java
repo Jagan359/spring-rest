@@ -4,7 +4,6 @@ import com.homeprojects.springjdbc.domain.AuthorEntity;
 import com.homeprojects.springjdbc.domain.dto.AuthorDto;
 import com.homeprojects.springjdbc.mappers.Mapper;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
